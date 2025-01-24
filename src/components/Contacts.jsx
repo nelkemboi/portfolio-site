@@ -1,10 +1,13 @@
 import React, { useState } from "react";
 import emailjs from "emailjs-com";
+import emailjsConfig from "./emailjs-config";
 
 const Modal = ({ isOpen, onClose }) => {
   const [selectedService, setSelectedService] = useState("");
   const [otherService, setOtherService] = useState("");
   const [timeline, setTimeline] = useState("");
+  const [statusMessage, setStatusMessage] = useState(""); // For showing status messages
+  const [statusType, setStatusType] = useState(""); // For success or error type
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -15,23 +18,27 @@ const Modal = ({ isOpen, onClose }) => {
       service: selectedService,
       other_service: otherService || "N/A",
       timeline: timeline,
-      recipient: "nelsonkemmboi20@gmail.com", // Explicitly adding your email to the data
+      recipient: "nelsonkemmboi20@gmail.com",
     };
 
     emailjs
       .send(
-        "service_fyuzonb", // Your EmailJS service ID
-        "template_yjkku4i", // Your EmailJS template ID
-        formData, // The data being sent to your template
-        "xP06lZiogLMEKTXam" // Your EmailJS public key
+        emailjsConfig.serviceID,
+        emailjsConfig.templateID,
+        formData,
+        emailjsConfig.publicKey
       )
       .then(
         (result) => {
-          alert("Inquiry sent successfully!");
-          onClose();
+          setStatusMessage("Inquiry sent successfully!");
+          setStatusType("success"); // Set the status type to success
+          setSelectedService("");
+          setOtherService("");
+          setTimeline("");
         },
         (error) => {
-          alert("Failed to send inquiry. Please try again.");
+          setStatusMessage("Failed to send inquiry. Please try again.");
+          setStatusType("error"); // Set the status type to error
         }
       );
   };
@@ -121,6 +128,17 @@ const Modal = ({ isOpen, onClose }) => {
               required
             />
           </div>
+
+          {/* Status Message */}
+          {statusMessage && (
+            <div
+              className={`text-center mb-4 ${
+                statusType === "success" ? "text-green-600" : "text-red-600"
+              }`}
+            >
+              {statusMessage}
+            </div>
+          )}
 
           {/* Button Container */}
           <div className="flex flex-col items-center space-y-4">
