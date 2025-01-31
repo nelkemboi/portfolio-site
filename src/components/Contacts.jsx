@@ -6,8 +6,8 @@ const Modal = ({ isOpen, onClose }) => {
   const [selectedService, setSelectedService] = useState("");
   const [otherService, setOtherService] = useState("");
   const [timeline, setTimeline] = useState("");
-  const [statusMessage, setStatusMessage] = useState(""); // For showing status messages
-  const [statusType, setStatusType] = useState(""); // For success or error type
+  const [statusMessage, setStatusMessage] = useState(""); 
+  const [statusType, setStatusType] = useState(""); 
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -29,16 +29,16 @@ const Modal = ({ isOpen, onClose }) => {
         emailjsConfig.publicKey
       )
       .then(
-        (result) => {
+        () => {
           setStatusMessage("Inquiry sent successfully!");
-          setStatusType("success"); // Set the status type to success
+          setStatusType("success");
           setSelectedService("");
           setOtherService("");
           setTimeline("");
         },
-        (error) => {
+        () => {
           setStatusMessage("Failed to send inquiry. Please try again.");
-          setStatusType("error"); // Set the status type to error
+          setStatusType("error");
         }
       );
   };
@@ -46,9 +46,9 @@ const Modal = ({ isOpen, onClose }) => {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-5 bg-black bg-opacity-50 flex items-start justify-end z-50">
-      <div className="bg-white p-6 rounded-lg w-[90%] max-w-md relative mt-10 ml-10">
-        <h2 className="text-xl font-bold mb-4 text-center">Inquire Now</h2>
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 px-4 sm:px-6">
+      <div className="bg-white p-6 rounded-lg w-[95%] sm:w-[90%] max-w-md lg:max-w-lg relative">
+        <h2 className="text-xl sm:text-2xl font-bold mb-4 text-center">Inquire Now</h2>
         <form onSubmit={handleSubmit}>
           {/* Name Input */}
           <div className="mb-4">
@@ -56,7 +56,7 @@ const Modal = ({ isOpen, onClose }) => {
               type="text"
               name="name"
               placeholder="Your Name"
-              className="w-full p-3 rounded-lg border border-gray-300"
+              className="w-full p-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-orange-500"
               required
             />
           </div>
@@ -67,7 +67,7 @@ const Modal = ({ isOpen, onClose }) => {
               type="email"
               name="email"
               placeholder="Your Email"
-              className="w-full p-3 rounded-lg border border-gray-300"
+              className="w-full p-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-orange-500"
               required
             />
           </div>
@@ -80,14 +80,12 @@ const Modal = ({ isOpen, onClose }) => {
             <select
               id="service"
               name="service"
-              className="w-full p-3 rounded-lg border border-gray-300"
+              className="w-full p-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-orange-500"
               value={selectedService}
               onChange={(e) => setSelectedService(e.target.value)}
               required
             >
-              <option value="" disabled>
-                -- Select a Service --
-              </option>
+              <option value="" disabled>-- Select a Service --</option>
               <option value="Chatbot">Chatbot</option>
               <option value="E-commerce">E-commerce</option>
               <option value="Data Analytics">Data Analytics</option>
@@ -105,7 +103,7 @@ const Modal = ({ isOpen, onClose }) => {
                 name="other_service"
                 placeholder="Please describe the service"
                 rows="3"
-                className="w-full p-3 rounded-lg border border-gray-300"
+                className="w-full p-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-orange-500"
                 value={otherService}
                 onChange={(e) => setOtherService(e.target.value)}
               ></textarea>
@@ -122,7 +120,7 @@ const Modal = ({ isOpen, onClose }) => {
               id="timeline"
               name="timeline"
               placeholder="Expected timeline (e.g., 2 weeks)"
-              className="w-full p-3 rounded-lg border border-gray-300"
+              className="w-full p-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-orange-500"
               value={timeline}
               onChange={(e) => setTimeline(e.target.value)}
               required
@@ -141,10 +139,10 @@ const Modal = ({ isOpen, onClose }) => {
           )}
 
           {/* Button Container */}
-          <div className="flex flex-col items-center space-y-4">
+          <div className="flex flex-col sm:flex-row items-center justify-between space-y-4 sm:space-y-0">
             <button
               type="submit"
-              className="bg-orange-600 text-white px-6 py-3 rounded-lg hover:bg-orange-700"
+              className="bg-orange-600 text-white px-6 py-3 rounded-lg hover:bg-orange-700 transition duration-300 w-full sm:w-auto"
             >
               Submit
             </button>
